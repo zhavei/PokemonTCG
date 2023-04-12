@@ -41,6 +41,7 @@ class MainAdapter : PagingDataAdapter<PokemonData, MainAdapter.PokeViewHolder>(D
         if (itemData != null) {
             holder.bind(itemData)
         }
+        holder.setIsRecyclable(false)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokeViewHolder {
