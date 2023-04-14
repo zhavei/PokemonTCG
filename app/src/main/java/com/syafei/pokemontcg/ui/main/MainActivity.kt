@@ -1,9 +1,13 @@
 package com.syafei.pokemontcg.ui.main
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
+import android.widget.SearchView
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -33,10 +37,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        supportActionBar?.hide()
+
         setupAdapter()
         onSwipeRefresh()
         getSearchData()
-        searchPokemon()
+        //searchPokemon()
+        searchUser()
 
 
     }
@@ -100,14 +107,14 @@ class MainActivity : AppCompatActivity() {
 
             mainViewModel.clearPokemonData()
 
-            binding.searchEdittext.setText("")
+            //binding.searchEdittext.setText("")
 
             // get data while refreshing
-            getSearchData()
+            getSearchData("")
         }
     }
 
-    private fun searchPokemon() {
+    /*private fun searchPokemon() {
         binding.searchButton.setOnClickListener {
 
             mainViewModel.clearPokemonData()
@@ -115,6 +122,32 @@ class MainActivity : AppCompatActivity() {
             val query = binding.searchEdittext.text.trim().toString()
             getSearchData(query)
         }
+    }*/
+
+    //region Search User
+    private fun searchUser() {
+        val countrySearch = binding.svMain
+        val searchIcon =
+            countrySearch.findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)
+        searchIcon.setColorFilter(Color.BLACK)
+        val cancelIcon =
+            countrySearch.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
+        cancelIcon.setColorFilter(Color.BLACK)
+        val textViewSearch =
+            countrySearch.findViewById<TextView>(androidx.appcompat.R.id.search_src_text)
+        textViewSearch.setTextColor(Color.BLACK)
+
+        countrySearch.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean = false
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                mainViewModel.clearPokemonData()
+                getSearchData(newText)
+                return false
+            }
+        })
+
     }
 
     private fun getSearchData(query: String = "") {

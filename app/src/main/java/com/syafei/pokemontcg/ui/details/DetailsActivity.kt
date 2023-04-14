@@ -82,6 +82,8 @@ class DetailsActivity : AppCompatActivity() {
         pokemonCard?.let {
             with(binding) {
                 tvNameDetail.text = it.name
+                if (it.hp == null) tvHpDetail.text = "0" else tvHpDetail.text = it.hp
+                if (it.level == null) tvLevelDetail.text = "0" else tvLevelDetail.text = it.level
                 supportActionBar?.title = it.name
             }
         }
